@@ -1,0 +1,85 @@
+#include<iostream>
+#include <cstring>
+using namespace std;
+void OA_sort(char*);
+void OA_task(char*, char*);
+int main() {
+	char OA_A[] = "OUfifiUok";
+	cout << "OA_A: "<< OA_A << endl;
+	char* OA_B = new char[61];
+	cout << "OA_B: "; cin.getline(OA_B, 61);
+	if (strpbrk(OA_A, OA_B) == nullptr) {
+		cout << "Sort P1 " << endl;
+		OA_sort(OA_B);
+	}
+	else {
+	    cout << "Task P2 " << endl;
+		OA_task(OA_A, OA_B);
+	}
+}
+void OA_sort(char* str) {
+	int k;
+	int l1 = strlen(str);
+	cout << "Enter k = "; cin >> k;
+	if(k<l1){
+	    int l2=l1-k;
+	       for (int i = l2; i < l1 - 1; i++) {
+		    bool f = true;
+		        for (int j = l1 - 1; j > i; j--) {
+			    if (str[j - 1] > str[j]) {
+				double t = str[j];
+				str[j] = str[j - 1];
+				str[j - 1] = t;
+				f = false;
+			}
+		}
+		if (f) break;
+	    }
+	cout << "After P1: " << str << endl;
+    }
+   if(k>l1) cout<<"!!!";
+}
+void OA_task(char *stra, char *strb) {
+    char min = -1;
+    for (int i = 0; stra[i] != '\0'; i++) {
+        if (strchr(strb, stra[i]) != NULL){
+            if(min==-1 || stra[i] < min) {
+            min = stra[i];
+            }
+        }
+    }
+    char *p = strchr(strb, min);
+    char *n = p;
+    while (n!= strb && *n != ' ') n--;
+    if (*n == ' ') n++; 
+    char *k = p;
+    while (*k != ' ' && *k != '\0') k++;
+    k--;
+    int count = 0;
+    for (char *a = n; a <= k; a++) {
+        if (isalpha(*a)) count++;
+    }
+    int len = strlen(strb);
+    int len2 = len + count;
+    if (len2 >= 60) {
+        cout << "!!!" << endl;
+        return;
+    }
+    for (int i = len; i >= 0; i--) {
+        if (&strb[i] >= n && &strb[i] <= k) {
+            if (isalpha(strb[i])) {
+                strb[i + count] = strb[i];
+                count--;
+                strb[i + count] = strb[i];
+            } else {
+                strb[i + count] = strb[i];
+            }
+        } else {
+            strb[i + count] = strb[i];
+        }
+    }
+    cout << "After P2: " << strb << endl;
+}
+
+
+
