@@ -1,0 +1,40 @@
+import random
+while True:
+    print("\n--- Меню ---")
+    print("1. Приветствие")
+    print("2. Проверка на палиндром")
+    print("3. Игра с числом")
+    print("4. Конец")
+    a = input("Выберите вариант 1-4 = ")
+
+    if a == "1":
+        print("Привет!")
+
+    elif a == "2":
+        text = input("Введите слово или число: ")
+        b = text.replace(" ", "").lower()
+        if b == b[::-1]:
+            print(f"'{text}' — это палиндром")
+        else:
+            print(f"'{text}' — это не палиндром")
+
+    elif a == "3":
+        k = random.randint(1, 10)
+        print("Я загадал число от 1 до 10. Угадай его!")
+
+        while True:
+            n = int(input("Твой вариант: "))
+
+            if n < k:
+                print("Моё число больше.")
+            elif n > k:
+                print("Моё число меньше.")
+            else:
+                print("Поздравляю, ты угадал!")
+                break
+
+    elif a == "4":
+        print("Программа завершена.")
+        break   
+    else:
+        print("Неверный выбор. Введите 1, 2, 3 или 4.")
