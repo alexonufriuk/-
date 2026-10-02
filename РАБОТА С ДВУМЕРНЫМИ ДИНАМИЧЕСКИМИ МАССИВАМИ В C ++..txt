@@ -1,0 +1,158 @@
+#include <iostream>
+#include <cmath>
+#include <ctime>
+using namespace std;
+double** OA_determ_dvmas(double**, int, int);
+double** OA_delete_dvmas(double**, int, int);
+void OA_vvod_dvmas(double**, int, int);
+void OA_vivod_dvmas(double**,int ,int);
+double** OA_transform_dvmas(double**, int, int);
+double** OA_square_dvmas(double**, int, double**, int);
+double** OA_modified_dvmas(double**, int);
+int main() {
+  double** pOA_1 = NULL;
+  double** pOA_2 = NULL;
+  int m, n;
+  cout << "number of rows = "; cin >> m;
+  cout << "number of collumms = "; cin >> n;
+  pOA_1 = OA_determ_dvmas(pOA_1, m, n);
+  cout << "pOA_1:\t address = " << &pOA_1 << "\n\t pointer = " << pOA_1 << endl;
+  char s;
+  cout << "do you want to see the whole information? Y/N "; cin >> s;
+  if (s == 'y' || s == 'Y') {
+    for (int i = 0; i < m; i++)
+      cout << "pOA_1[" << i << "]:address = " << &pOA_1[i] << " \n\t pointer = " << pOA_1[i] << endl;
+  }
+  OA_vvod_dvmas(pOA_1, m, n);
+  cout<<endl;
+  cout << "array pOA_1:" << endl;
+  OA_vivod_dvmas(pOA_1, m, n);
+  cout << "pOA_1:\t adress = " << &pOA_1 << " \n\t pointer = " << pOA_1 << " \n\t value = " << *pOA_1 << endl;
+  cout << endl;
+  pOA_1 = OA_transform_dvmas(pOA_1, m, n);
+  n += 1;
+  cout << "array pOA_1 after transformation:" << endl;
+  OA_vivod_dvmas(pOA_1, m, n);
+  cout << "pOA_1:\t adress = " << &pOA_1 << " \n\t pointer = " << pOA_1 << " \n\t value = " << *pOA_1 << endl;
+  cout << endl;
+  int k = min(m, n);
+  pOA_2 = OA_determ_dvmas(pOA_2, k, k);
+  pOA_2 = OA_square_dvmas(pOA_1, n, pOA_2, k);
+  cout << "array pOA_2:" << endl;
+  OA_vivod_dvmas(pOA_2, k, k);
+  cout << "pOA_2:\t adress = " << &pOA_2 << " \n\t pointer = " << pOA_2 << " \n\t value = " << *pOA_2 << endl;
+  cout << endl;
+  
+  
+  pOA_2 = OA_modified_dvmas(pOA_2, k);
+  cout << "array pOA_2 after modification:" << endl;
+  OA_vivod_dvmas(pOA_2, k, k);
+  cout << "pOA_2:\t adress = " << &pOA_2 << " \n\t pointer = " << pOA_2 << " \n\t value = " << *pOA_2 << endl;
+  cout << endl;
+  pOA_2 = OA_transform_dvmas(pOA_2, k, k);
+  cout << "array pOA_2 after transformation:" << endl;
+  OA_vivod_dvmas(pOA_2, k, k + 1);
+  cout << "pOA_2:\t adress = " << &pOA_2 << " \n\t pointer = " << pOA_2 << " \n\t value = " << *pOA_2 << endl;
+  cout << endl;
+  pOA_1 = OA_delete_dvmas(pOA_1, m, n);
+  pOA_2 = OA_delete_dvmas(pOA_2, k, k + 1);
+  return 0;
+}
+
+double** OA_determ_dvmas(double** ar, int m, int n) {
+  ar = new double* [m];
+  for (int i = 0; i < m; i++)
+    ar[i] = new double[n];
+  return ar;
+}
+
+double** OA_delete_dvmas(double** ar, int m, int n) {
+  for (int i = m - 1; i >= 0; i--) {
+    delete[] ar[i];
+    ar[i] = NULL;
+  }
+  delete[] ar;
+  ar = NULL;
+  return ar;
+}
+
+void OA_vvod_dvmas(double** ar, int m, int n) {
+  int a = 0, b = 1;
+  srand((unsigned int)time(0));
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < n; j++)
+      ar[i][j] = a + 1. * rand() / RAND_MAX * (b - a);
+}
+
+void OA_vivod_dvmas(double** ar, int m, int n) {
+  cout.setf(ios::fixed);
+  for (int i = 0; i < m; i++) {
+    cout << "{";
+    for (int j = 0; j < n; j++) {
+      cout.precision(3); cout.width(5);  cout << ar[i][j];
+      if (j != n - 1) cout << ", ";
+    }
+    cout << "}" << endl;
+  }
+  cout.unsetf(ios::fixed);
+}
+
+double** OA_transform_dvmas(double** ar, int m, int n) {
+  double** temp_ar = NULL;
+  int col = -1;
+  cout << "the number of column you want to add after (in range 0 - " << n - 1 << "): "; cin >> col;
+  if(col<0 || col >=n){
+      cout<<"Error: Invalid value entered"<<endl;
+      srand((unsigned int)time(0));
+      col = rand()%n;
+      cout<<"Column number = "<<col<<endl;
+  } else{
+      cout<<"Ñolumn number is selected correctly. "<<endl;
+  }
+  temp_ar = new double* [m];
+  for (int i = 0; i < m; i++)
+    temp_ar[i] = new double[n + 1];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n + 1; j++) {
+      if (j <= col) temp_ar[i][j] = ar[i][j];
+      else if (j == col + 1) temp_ar[i][col + 1] = 0;
+      else temp_ar[i][j] = ar[i][j - 1];
+    }
+  }
+  for (int i = m - 1; i >= 0; i--) {
+    delete[] ar[i];
+    ar[i] = NULL;
+  }
+  delete[] ar;
+  ar = NULL;
+  return temp_ar;
+}
+
+double** OA_square_dvmas(double** ar1, int n, double** ar2, int k) {
+  for (int i = 0; i < k; i++)
+    for (int j = 0; j < k; j++) {
+      if (i > j) ar2[i][j] = ar1[i][j];
+      else if (i < j) ar2[i][j] = 0;
+      else {
+        double mn = ar1[i][j];
+        for (int g = j + 1; g < n; g++) {
+          if (mn > ar1[i][g]) mn = ar1[i][g];
+        }
+        ar2[i][j] = mn;
+      }
+    }
+  return ar2;
+}
+
+double** OA_modified_dvmas(double** ar, int k) {
+    double** temp_ar = OA_determ_dvmas(NULL, k, k);
+    for (int i = 0; i < k; i++) {
+        for (int j = 0; j < k; j++) {
+            temp_ar[i][j] = ar[k - 1 - j][i];
+        }
+    }
+    OA_delete_dvmas(ar, k, k);
+    return temp_ar;
+}
+
+
