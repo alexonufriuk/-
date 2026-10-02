@@ -1,0 +1,141 @@
+#include <iostream>
+#include <cmath>
+#include <ctime>
+using namespace std;
+int main()
+{
+	int n;
+	do {
+		cout << "Menu :" << endl;
+		cout << "1: random number from -3 to 3" << endl;
+		cout << "2: calculatå the function u(x)" << endl;
+		cout << "3: computation s(n, x, y)" << endl;
+		cout << "4: calculatå the number c" << endl;
+		cout << "5: Exit" << endl;
+		cout << "Your choice? "; cin >> n;
+		cout << endl;
+		switch (n) {
+		
+		case 1: {
+			srand(time(0));
+			int z, a = -3, b = 3;
+			z = rand();
+			z = z % (b - a + 1);
+			z = z + a;
+			cout << "1: random number from -3 to 3" << endl;
+			cout << endl;
+			cout << "z = " << z << endl;
+			cout << "- - - - - - - - - - - - - - - - - -" << endl<<endl<< endl;
+			break;
+		}
+		
+     	case 2: {
+			double x, a1, a2, a3, a, e;
+			cout << "2: calculating the function u(x)" << endl;
+			cout << endl;
+			cout << "? x= "; cin >> x;
+			if ((x >= 3) && (x<=8)) {
+				a1 = exp(pow((x-3)/2,1./2)+1);
+				a2 = log(7./3 + 2*x)/log(3);
+				a3 = pow(asin(abs((x+2)-1)/ 9), 2);
+				cout << "a1 = " << a1 << endl;
+				cout << "a2 = " << a2 << endl;
+				cout << "a3 = " << a3 << endl;
+				a = a1 * a2 + a3;
+				cout.precision(8);
+				cout << "a(x) = " << a << endl;
+			}
+			else {
+				cout << "Function is undefined" << endl;
+			}
+			cout << "- - - - - - - - - - - - - - - - - -" << endl<<endl<< endl;
+			break;
+		}
+		
+		case 3: {
+			int n, k, j, f;
+			double x, y, p, s, el;
+			cout << "3: computation s(n, x, y)" << endl;
+			cout << "Enter n: "; cin >> n; 
+			cout << "Enter x: "; cin >> x;
+			cout << "Enter y: "; cin >> y;
+			cout << endl;
+			s = 0;
+			for (k = 1; k <= n; k++) {
+				cout << "k = " << k << endl;
+				p = 1;
+				for (j = 1; j <= k; j++) {
+					el = cos(y * j);
+					p = p * el;
+				}
+				f = 1;
+				for (j = 1; j <= k; j++) {
+					f = j * f;
+				}
+				s = s + sin(pow(x, 2) - k) / (1 + f) + p;
+				cout << "el = " << el << endl;
+				cout << "p = " << p << endl;
+				cout << "k! = " << f << endl;
+				cout << "s = " << s << endl;
+				cout << endl;
+			}
+			cout << "Result s: " << s << endl;
+			cout << "- - - - - - - - - - - - - - - - - -" << endl<<endl;
+			break;
+		}
+	
+		case 4: {
+			cout << "4: calculating the number c" << endl;
+			double x, y, z, min, max, avg, c;
+			cout << "Enter x: "; cin >> x;
+			cout << "Enter y: "; cin >> y;
+			cout << "Enter z: "; cin >> z;
+			avg = (x + y + z - 1) / 3;
+			cout << "avg = " << avg << endl;
+			max = x;
+			if ((y + 2) > max) max = y + 2;
+			if (z > max) max = z;
+			cout << "max = " << max << endl;
+			min = x + 3;
+			if ((y - z) < min) min = y - z;
+			cout << "min = " << min << endl;
+			c = (avg - max) * min;
+			cout << "c = " << c << endl<<endl;
+			
+	        char ans;
+			cout << "Do you want to solve the equation? (Y/N): "; cin >> ans;
+			if (ans == 'Y' || ans == 'y') {
+				cout << "Solution of 3x^2 - 5x + c = 0:" << endl;
+				double a, b, d, x, x1, x2;
+				a = 3;
+				b = -5;
+				d = (b * b) - 4 * a * c;
+				if (d > 0) {
+					x1 = ((-b + sqrt(d)) / (2 * a));
+					x2 = ((-b - sqrt(d)) / (2 * a));
+					cout << "D = " << d << endl;
+					cout << "x1 = " << x1 << endl;
+					cout << "x2 = " << x2 << endl;
+				}
+				else if (d == 0) {
+					x = -b / (2 * a);
+					cout << "The discriminant has 1 root: x = " << x << endl;
+				}
+				else cout << "Discriminant < 0" << endl;
+			}
+			else cout << "Okay, let's not decide anything. " << x << endl;
+			cout << "- - - - - - - - - - - - - - - - - -" << endl<< endl;
+			break;
+		}
+		
+		case 5: {
+			cout << "Åxit" << endl;
+			break;
+		}
+		default:cout << "Sorry, you made a mistake(" << endl;
+			cout << "- - - - - - - - - - - - - - - - - -" << endl;
+		}
+	} while (n != 5);
+	return 0;
+}
+   
