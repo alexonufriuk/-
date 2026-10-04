@@ -1,0 +1,29 @@
+﻿import time
+
+def timer(seconds):
+    print("Таймер запущен на", seconds, "секунд...")
+    while seconds > 0:
+        mins, secs = divmod(seconds, 60)
+        print(f"{mins:02d}:{secs:02d}", end="\r")
+        time.sleep(1)
+        seconds -= 1
+    print("00:00")
+    print("Время вышло!")
+
+
+try:
+    raw = input("На сколько секунд поставить таймер? ")
+    if raw.strip() == "":
+        print("Ошибка: введите ЦЕЛОЕ ЧИСЛО.")
+    else:
+        try:
+            t = int(raw)
+            timer(t)
+        except ValueError:
+            try:
+                float(raw)
+                print("Ошибка: введите ЦЕЛОЕ число.")
+            except ValueError:
+                print("Ошибка: введите целое ЧИСЛО.")
+except:
+    print("\nТаймер прерван.")
